@@ -4,17 +4,20 @@ function search() {
 
     let key = "ed1f0c8cff78acec3459f425c7493728"
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput.value}&appid=${key}`
-
-    fetch(url).then(function (res) {
-        return res.json()
-    }).then(function (res) {
-        console.log(res.coord)
-        sevenDaysFunc(res.coord.lat, res.coord.lon)
-        display(res)
-    }).catch(function (err) {
-        console.log(err)
-    })
-
+    if (searchInput != "") {
+        fetch(url).then(function (res) {
+            return res.json()
+        }).then(function (res) {
+            // console.log(res.coord)
+            sevenDaysFunc(res.coord.lat, res.coord.lon)
+            display(res)
+        }).catch(function (err) {
+            console.log(err)
+        })
+    }
+    else {
+        alert("Please Enter City Name")
+    }
     function sevenDaysFunc(lat, lon) {
         let key = "ed1f0c8cff78acec3459f425c7493728"
         let sevenDaysUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={part}&appid=${key}`
@@ -31,13 +34,16 @@ function search() {
 
 }
 
-
+// append data
 function display(data) {
 
     const weather = document.querySelector('#weather');
     const allDetails = document.querySelector('#allDetails');
 
     weather.innerHTML = ""
+
+    const sw = document.querySelector('#sw');
+    sw.style.display = "none"
 
     const weather2 = document.querySelector('#weather2');
     weather2.innerHTML = ""
@@ -218,21 +224,17 @@ function display(data) {
     weather.append(tempDiv, city, temp_minDiv, temp_maxDiv, humidityDiv, cloudsDiv, pressureDiv)
 }
 
-
+// get latitude and longitude
 function getLocationWeather() {
     navigator.geolocation.getCurrentPosition(success);
     function success(position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-
         liveFun(latitude, longitude)
-        // search(latitude, longitude)
-
-        // console.log(latitude);
-        // console.log(longitude);
     }
 }
 
+// convert into time
 function convertTime(unixTime) {
     let dt = new Date(unixTime * 1000)
     let h = dt.getHours()
@@ -245,9 +247,7 @@ function convertTime(unixTime) {
 const CurrentLocation = document.querySelector('#CurrentLocation');
 CurrentLocation.addEventListener("click", liveFun)
 function liveFun(lat, lon) {
-
     let key = "ed1f0c8cff78acec3459f425c7493728"
-
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`
     fetch(url).then(function (res) {
         return res.json()
@@ -256,24 +256,27 @@ function liveFun(lat, lon) {
     }).catch(function (err) {
         console.log(err)
     })
-
     getLocationWeather()
 }
 
+// function for seven days weather 
+let i = 0;
 function displysevenDays(data) {
     const sevenDays = document.querySelector('#sevenDays');
+    sevenDays.innerText = ""
+    let daysarr = ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday"]
 
     data.forEach(function (elem) {
-        // let dt = new Date(elem.dt)
-        // console.log(dt)
-
-        // var date = new Date(elem.dt);
-        // date.setDate(date.getDate() - 13);
-        // console.log(date);
 
         const daysDiv = document.createElement('div');
         daysDiv.setAttribute("id", "daysDiv")
         sevenDays.append(daysDiv)
+
+        const days = document.createElement('p');
+        days.innerText = daysarr[i++]
+        if (i == 8) {
+            i = 0
+        }
 
         const icon = document.createElement('img');
         icon.src = `http://openweathermap.org/img/wn/${elem.weather[0].icon}@2x.png`
@@ -284,18 +287,7 @@ function displysevenDays(data) {
         const minTemp = document.createElement('p');
         minTemp.innerText = `Max Temp: ${(elem.temp.min - 273.15).toFixed(2)} °`
 
-        daysDiv.append(icon, maxTemp, minTemp)
+        daysDiv.append(days, icon, maxTemp, minTemp)
     })
 
 }
-
-let days = 7
-
-// for (var i = 0; i <= days; i++) {
-//     var date = new Date(i);
-//     date.setDate(date.getDate() - i);
-//     var finalDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-//     console.log(finalDate)
-// }
-
-console.log(days)

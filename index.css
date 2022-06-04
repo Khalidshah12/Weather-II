@@ -2,10 +2,10 @@
     font-family: sans-serif;
 }
 
-body{
+body {
     background-image: url(https://images.pond5.com/bright-moon-starry-sky-cloud-photo-158109298_iconl_wide_nowm.jpeg);
     background-repeat: no-repeat;
-    background-size: 100% 600px;
+    background-size: 100% 800px;
 }
 
 #searchBar {
@@ -69,6 +69,14 @@ body{
     margin: auto
 }
 
+/* search weather text */
+#sw {
+    margin-top: 250px;
+    margin-left: 400px;
+    font-size: 48px;
+}
+
+/* all details of weather container*/
 #allDetails {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -76,6 +84,7 @@ body{
     margin-top: 20px;
 }
 
+/* details stored in this div */
 #weather {
     padding-top: 5px;
     padding-bottom: 5px;
@@ -84,6 +93,7 @@ body{
     padding-top: 50px;
 }
 
+/* remaining details stored in this div */
 #weather2 {
     margin-top: 100px;
     /* border: 1px solid black; */
@@ -91,6 +101,7 @@ body{
     padding-top: 50px;
 }
 
+/* city name */
 #city {
     margin-top: -20px;
     margin-bottom: 30px;
@@ -140,36 +151,18 @@ p {
     font-weight: bold;
 }
 
-#feels_likeDiv {
-    display: flex;
-}
-
-#sunriseDiv {
-    display: flex;
-}
-
-#sunsetDiv {
-    display: flex;
-}
-
-#cloudsDiv {
-    display: flex;
-}
-
-#temp_maxDiv {
-    display: flex;
-}
-
-#temp_minDiv {
-    display: flex;
-}
-
+#feels_likeDiv,
+#sunriseDiv,
+#sunsetDiv,
+#cloudsDiv,
+#temp_maxDiv,
+#temp_minDiv,
 #pressureDiv {
     display: flex;
 }
 
-#sevenDays{
-    width: 90%;
+#sevenDays {
+    width: 100%;
     margin: auto;
     display: flex;
     justify-content: space-between;
